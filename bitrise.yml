@@ -170,6 +170,134 @@ workflows:
 
     - cache-push@2: {}
 
+  deploy_ota:
+    steps:
+    - restore-cache@2:
+        title: Restore node cache
+        inputs:
+        - key: asdf-node-mac-m1
+    - script@1:
+        title: Install node versions
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            # set -e
+            # make pipelines' return status equal the last command to exit with a non-zero status, or zero if all commands exit successfully
+            # set -o pipefail
+            # debug log
+            # set -x
+
+            echo "legacy_version_file = yes" >> /Users/vagrant/.asdfrc
+            cat /Users/vagrant/.asdfrc
+            asdf install nodejs 18.13.0
+            asdf global nodejs 18.13.0
+            asdf reshim
+            npm install --global yarn@1.18.0
+            envman add --key PATH --value $PATH
+    - save-cache@1:
+        title: Save node cache
+        inputs:
+        - paths: "/Users/vagrant/.asdf/installs/nodejs/"
+        - verbose: 'true'
+        - is_key_unique: 'true'
+        - key: asdf-node-mac-m1
+    - script@1:
+        title: Setup project
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # make pipelines' return status equal the last command to exit with a non-zero status, or zero if all commands exit successfully
+            set -o pipefail
+            # debug log
+            set -x
+
+            cd ios
+            echo "defaults.url=https://sentry.io/" > sentry.properties
+            echo "defaults.org=people-center-inc" >> sentry.properties
+            echo "defaults.project=rippling-mobile-app" >> sentry.properties
+            echo "auth.token=$SENTRY_CLI_ORG_AUTH_TOKEN" >> sentry.properties
+            cd ..
+            cat ios/sentry.properties
+    - restore-cache@2:
+        title: Restore yarn cache
+        inputs:
+        - key: '{{ .OS }}-{{ .Arch }}-npm-cache-{{ checksum "yarn.lock" }}'
+    - yarn@0:
+        inputs:
+        - cache_local_deps: 'yes'
+    - script@1:
+        title: Setup Expo EAS CLI
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # make pipelines' return status equal the last command to exit with a non-zero status, or zero if all commands exit successfully
+            set -o pipefail
+            # debug log
+            set -x
+
+            npm install --global eas-cli
+    - script@1:
+        title: Increment Version
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # make pipelines' return status equal the last command to exit with a non-zero status, or zero if all commands exit successfully
+            set -o pipefail
+            # debug log
+            set -x
+
+            echo $VERSION
+            echo $VERSIONCODE
+            echo $JSVERSION
+
+            # update version versionCode and jsVersion in app.json
+            jq '.expo.version = "'$VERSION'"' app.json > app2.json && mv app2.json app.json
+            jq '.expo.runtimeVersion = "'$VERSION'"' app.json > app2.json && mv app2.json app.json
+            jq '.expo.versionCode = '$VERSIONCODE'' app.json > app2.json && mv app2.json app.json
+            jq '.expo.jsVersion = '$JSVERSION'' app.json > app2.json && mv app2.json app.json
+            cat app.json
+    - script@1:
+        title: OTA Update Android
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # make pipelines' return status equal the last command to exit with a non-zero status, or zero if all commands exit successfully
+            set -o pipefail
+            # debug log
+            set -x
+            export SENTRY_PROPERTIES=./android/sentry.properties
+            eas update --auto --channel production --platform android --skip-bundler  
+    - restore-cache@2:
+        title: Restore cache for ios
+        inputs:
+        - key: daily-metro-cache-mac-ios
+        - verbose: 'true'
+    - script@1:
+        title: OTA Update iOS
+        inputs:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # make pipelines' return status equal the last command to exit with a non-zero status, or zero if all commands exit successfully
+            set -o pipefail
+            # debug log
+            set -x
+            export SENTRY_PROPERTIES=./ios/sentry.properties
+            eas update --auto --channel production --platform ios --skip-bundler
+    meta:
+      bitrise.io:
+        stack: linux-docker-android-22.04
+  
   test:
     meta:
         bitrise.io:
