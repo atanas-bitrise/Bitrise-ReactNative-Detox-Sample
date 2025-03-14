@@ -34,5 +34,7 @@
         <data android:scheme="exp+bitrise-reactnative-detox-sample"/>
       </intent-filter>
     </activity>
+    <activity android:name="expo.modules.devlauncher.launcher.DevLauncherActivity" android:exported="true"/>
+    <activity android:name="expo.modules.devlauncher.launcher.errors.DevLauncherErrorActivity" android:exported="true"/>
   </application>
 </manifest>
