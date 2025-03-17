@@ -12,6 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "developmentClient": false,
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "io.bitrise.BitriseReactNativeDetoxSample"
