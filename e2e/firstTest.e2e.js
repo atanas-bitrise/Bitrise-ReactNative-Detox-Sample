@@ -9,7 +9,7 @@ describe('Todo App', () => {
     
      
       // Handle dev client screen
-      await element(by.text('http://localhost:8081')).tap();
+      await element(by.text('http://10.0.2.2:8081')).tap();
       // Handle dev menu welcome screen
       await element(by.text('Continue')).tap();
       // Close the bottom sheet by tapping the X button
