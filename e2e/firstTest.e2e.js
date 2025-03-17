@@ -1,6 +1,7 @@
 describe('Todo App', () => {
     beforeAll(async () => {
       //await detox.init()
+      console.log('Before launching the app')
       await device.launchApp({
         newInstance: true
       });
