@@ -5,25 +5,30 @@ describe('Todo App', () => {
         newInstance: true
       });
       // Explicitly specify the package and activity name
-
+      console.log('Before tapping on link')
     
      
       // Handle dev client screen
       await element(by.text('http://10.0.2.2:8081')).tap();
+      console.log('After tapping on link')
       // Handle dev menu welcome screen
       await element(by.text('Continue')).tap();
+      console.log('After tapping on continue')
       // Close the bottom sheet by tapping the X button
       // Try different selectors for the X button
       try {
         // Try various possible selectors for the X button
         await element(by.label('Close')).atIndex(0).tap();
+        console.log('After tapping on the close button')
         // If that doesn't work, you might need to add a testID to the close button
       } catch (error) {
         console.log('Could not find close button with label Close, trying different selector');
         await device.shake()
+        console.log('After shaking')
         //-After using device.openURL() we can use device.shake() to hide the DevMenu 
       }
       // Wait for app to load
+      console.log('Before 3 seconds timeout')
       await new Promise(resolve => setTimeout(resolve, 3000));
       console.log('App Launched')
     }, 60000);
