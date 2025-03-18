@@ -2,14 +2,18 @@ describe('Todo App', () => {
     beforeAll(async () => {
       //await detox.init()
       console.log('Before launching the app');
-      await device.launchApp({
-        newInstance: true,
-        launchArgs: { detoxEnableSynchronization: 0 }
-      });
+
+      await device.openURL({ 
+          url: 'exp+Bitrise-ReactNative-Detox-Sample://expo-development-client/?url=${encodeURIComponent("http://10.0.2.2:8081" )}',
+       });
+      console.log('After launch with URL');
+      await device.shake();
+      console.log('After shaking to close screen');
+      
+      // await device.launchApp({
+      //  newInstance: true,
+      // });
       // Explicitly specify the package and activity name
-      console.log('Before tapping on link');
-      await device.enableSynchronization();
-      console.log('After enabling synchronization');
      
       // Handle dev client screen
       await element(by.text('http://10.0.2.2:8081')).tap();
