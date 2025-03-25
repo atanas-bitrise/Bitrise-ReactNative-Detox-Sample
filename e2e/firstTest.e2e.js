@@ -2,17 +2,9 @@ describe('Todo App', () => {
     beforeAll(async () => {
       //await detox.init()
       console.log('Before launching the app');
-
-      await device.openURL({ 
-          url: 'exp+Bitrise-ReactNative-Detox-Sample://expo-development-client/?url=${encodeURIComponent("http://10.0.2.2:8081" )}',
-       });
-      console.log('After launch with URL');
-      await device.shake();
-      console.log('After shaking to close screen');
-      
-      // await device.launchApp({
-      //  newInstance: true,
-      // });
+      await device.launchApp({
+        newInstance: true,
+      });
       // Explicitly specify the package and activity name
      
       // Handle dev client screen
