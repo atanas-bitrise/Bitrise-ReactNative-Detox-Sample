@@ -171,6 +171,7 @@ dependencies {
     androidTestImplementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8:+')
     androidTestImplementation('org.jetbrains.kotlin:kotlin-reflect:+')
     androidTestImplementation('com.github.anrwatchdog:anrwatchdog:1.4.0')
+    androidTestImplementation('org.apache.commons:commons-lang3:3.7')
     // End of debug Detox
 
     androidTestImplementation('androidx.test:core:1.4.+')
