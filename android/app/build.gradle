@@ -160,8 +160,9 @@ dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
     // androidTestImplementation('com.wix:detox:+')
+    androidTestImplementation('com.wix:detox:0.1.1')
     // Debug Detox
-    androidTestImplementation(files("lib/detox-full-release.aar"))
+    // androidTestImplementation(files("lib/detox-full-release.aar"))
     androidTestImplementation('androidx.test.espresso:espresso-core:+')
     androidTestImplementation('androidx.test.espresso:espresso-web:+')
     androidTestImplementation('androidx.test.ext:junit:+')
