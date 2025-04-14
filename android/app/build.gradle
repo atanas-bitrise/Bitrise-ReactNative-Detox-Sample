@@ -161,10 +161,15 @@ dependencies {
     implementation("com.facebook.react:react-android")
     // androidTestImplementation('com.wix:detox:+')
     // Debug Detox
-    androidTestImplementation(files("lib/detox-full-debug.aar"))
+    androidTestImplementation(files("lib/detox-full-release.aar"))
+    androidTestImplementation('androidx.test.espresso:espresso-core:+')
+    androidTestImplementation('androidx.test.espresso:espresso-web:+')
     androidTestImplementation('androidx.test.ext:junit:+')
     androidTestImplementation('androidx.test:rules:+')
     androidTestImplementation('androidx.test.uiautomator:uiautomator:+')
+    androidTestImplementation('org.jetbrains.kotlin:kotlin-android-extensions-runtime:+')
+    androidTestImplementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8:+')
+    androidTestImplementation('org.jetbrains.kotlin:kotlin-reflect:+')
     // End of debug Detox
 
     androidTestImplementation('androidx.test:core:1.4.+')
