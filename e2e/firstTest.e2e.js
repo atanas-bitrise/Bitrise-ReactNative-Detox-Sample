@@ -8,16 +8,19 @@ describe('Todo App', () => {
       // Explicitly specify the package and activity name
      
       // Handle dev client screen
-      await element(by.text('http://10.0.2.2:8081')).tap();
+      // Not relevant for release flavor
+      // await element(by.text('http://10.0.2.2:8081')).tap();
       console.log('After tapping on link');
       // Handle dev menu welcome screen
-      await element(by.text('Continue')).tap();
+      // Not relevant for release flavor
+      // await element(by.text('Continue')).tap();
       console.log('After tapping on continue');
       // Close the bottom sheet by tapping the X button
       // Try different selectors for the X button
       try {
         // Try various possible selectors for the X button
-        await element(by.label('Close')).atIndex(0).tap();
+        // Not relevant for release flavor
+        // await element(by.label('Close')).atIndex(0).tap();
         console.log('After tapping on the close button');
         // If that doesn't work, you might need to add a testID to the close button
       } catch (error) {
